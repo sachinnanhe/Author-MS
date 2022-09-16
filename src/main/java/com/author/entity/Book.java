@@ -2,12 +2,12 @@ package com.author.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 
@@ -19,14 +19,14 @@ public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookseq")
-	private Long bookId;
+	
+	private Integer bookId;
 
 	@NotBlank(message = "book title should not be blank")
 	private String title;
 
-	@ManyToOne
-	@JoinColumn(name = "author_id", referencedColumnName = "authorId")
-	private Author author;
+	@NotBlank(message= "author name should not be blank")
+	private String authorName;
 
 	@NotBlank(message = "category should not be blank")
 	private String category;
@@ -43,12 +43,14 @@ public class Book {
 	private Date publisherDate = new Date();
 
 	private boolean active;
+	
 
-	public Long getBookId() {
+
+	public Integer getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(Long bookId) {
+	public void setBookId(Integer bookId) {
 		this.bookId = bookId;
 	}
 
@@ -60,12 +62,12 @@ public class Book {
 		this.title = title;
 	}
 
-	public Author getAuthor() {
-		return author;
+	public String getAuthorName() {
+		return authorName;
 	}
 
-	public void setAuthor(Author author) {
-		this.author = author;
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
 	}
 
 	public String getCategory() {
@@ -116,14 +118,15 @@ public class Book {
 		this.active = active;
 	}
 
-	public Book(Long bookId, @NotBlank(message = "book title should not be blank") String title, Author author,
+	public Book(Integer bookId, @NotBlank(message = "book title should not be blank") String title,
+			@NotBlank(message = "author name should not be blank") String authorName,
 			@NotBlank(message = "category should not be blank") String category,
 			@NotBlank(message = "provide at least one url") String logo, Integer price,
 			@NotBlank(message = "publisher should not be blank") String publisher, Date publisherDate, boolean active) {
 		super();
 		this.bookId = bookId;
 		this.title = title;
-		this.author = author;
+		this.authorName = authorName;
 		this.category = category;
 		this.logo = logo;
 		this.price = price;
@@ -139,11 +142,11 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [bookId=" + bookId + ", title=" + title + ", author=" + author + ", category=" + category
+		return "Book [bookId=" + bookId + ", title=" + title + ", authorName=" + authorName + ", category=" + category
 				+ ", logo=" + logo + ", price=" + price + ", publisher=" + publisher + ", publisherDate="
 				+ publisherDate + ", active=" + active + "]";
 	}
 
-    
+	
 	
 }
